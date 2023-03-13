@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -10,23 +10,26 @@ export class AppComponent implements OnInit {
 
   formGroup: FormGroup = new FormGroup({})
   /**
-   * 用以取得帳號欄位的表單控制項
+   *  用以取得 FormArray
+   *
+   * @readonly
+   * @type {FormArray}
+   * @memberof ReactiveFormsAsyncInsuredComponent
    */
-  get accountControl(): FormControl {
-    return this.formGroup.get('account') as FormControl;
+  get formArray(): FormArray {
+    return this.formGroup?.get('insuredList')! as FormArray;
   }
+
   /**
-   * 用以取得密碼欄位的表單控制項
+   * 綁定在送出按鈕上，判斷表單是不是無效
+   *
+   * @readonly
+   * @type {boolean}
+   * @memberof ReactiveFormsAsyncInsuredComponent
    */
-  get passwordControl(): FormControl {
-    return this.formGroup.get('password') as FormControl;
+  get isFormInvalid(): boolean {
+    return this.formArray.controls.length === 0 || this.formGroup!.invalid;
   }
-
-  // 帳號欄位的錯誤訊息
-  accountErrorMessage = '';
-
-  // 密碼欄位的錯誤訊息
-  passwordErrorMessage = '';
 
   /**
    * 透過 DI 取得 FromBuilder 物件，用以建立表單
@@ -35,48 +38,76 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.formGroup = this.formBuilder.group({
-      account: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(/^\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b$/gi)
-        ]
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(16)
-        ]
-      ]
+      insuredList: new FormArray([])
     });
   }
 
-  // 綁定在表單上，當使用者按下登入按鈕時會觸發此函式
-  login(): void {
-    // do login...
+  /**
+   * 新增被保人
+   *
+   * @memberof ReactiveFormsAsyncInsuredComponent
+   */
+  addInsured(): void {
+    const formGroup = this.createInsuredFormGroup();
+    this.formArray.push(formGroup);
   }
 
   /**
-   * 透過該欄位的表單控制項來取得該欄位的錯誤訊息
+   * 建立被保人的表單
    *
-   * @param {FormControl} formControl 欲取得錯誤訊息的欄位的表單控制項 (by Angular)
+   * @private
+   * @return {*}  {FormGroup}
+   * @memberof ReactiveFormsAsyncInsuredComponent
    */
-  getErrorMessage(formControl: FormControl): string {
-    let errorMessage: string = '';
-    if (!formControl.errors || formControl.pristine) {
+  private createInsuredFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      name: [
+        '',
+        [Validators.required, Validators.minLength(2), Validators.maxLength(10)]
+      ],
+      gender: ['', Validators.required],
+      age: ['', Validators.required]
+    });
+  }
+
+  /**
+   * 刪除被保人
+   *
+   * @param {number} index
+   * @memberof ReactiveFormsAsyncInsuredComponent
+   */
+  deleteInsured(index: number): void {
+    this.formArray.controls.splice(index, 1);
+    this.formArray.updateValueAndValidity();
+  }
+
+
+  submit(): void {
+    console.warn('do submit...');
+  }
+
+  /**
+   * 透過欄位的 Errors 來取得對應的錯誤訊息
+   *
+   * @param {string} key
+   * @param {number} index
+   * @return {*}  {string}
+   * @memberof ReactiveFormsAsyncInsuredComponent
+   */
+  getErrorMessage(key: string, index: number): string {
+    const formGroup = this.formArray.controls[index];
+    const formControl = formGroup.get(key);
+    let errorMessage: string;
+    if (!formControl || !formControl.errors || formControl.pristine) {
       errorMessage = '';
     } else if (formControl.errors['required']) {
       errorMessage = '此欄位必填';
-    } else if (formControl.errors['pattern']) {
-      errorMessage = '格式有誤，請重新輸入';
     } else if (formControl.errors['minlength']) {
-      errorMessage = '密碼長度最短不得低於8碼';
+      errorMessage = '姓名至少需兩個字以上';
     } else if (formControl.errors['maxlength']) {
-      errorMessage = '密碼長度最長不得超過16碼';
+      errorMessage = '姓名至多只能輸入十個字';
     }
-    return errorMessage;
+    return errorMessage!;
   }
 
 }
