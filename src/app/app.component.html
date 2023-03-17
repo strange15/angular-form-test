@@ -38,6 +38,17 @@
         </select>
         <span class="error">{{ getErrorMessage("age", index) }}</span>
       </p>
+      <p>
+        <label>聯絡資訊：</label>
+      </p>
+      <p>
+        <select>
+          <option value="">請選擇</option>
+          <option value="mobile">手機</option>
+          <option value="email">E-Mail</option>
+        </select>
+        <input type="text">
+      </p>
       <p><button type="button" (click)="deleteInsured(index)">刪除</button></p>
     </fieldset>
   </ng-container>
