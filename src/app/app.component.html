@@ -42,12 +42,14 @@
         <label>聯絡資訊：</label>
       </p>
       <p>
-        <select>
+        <select formControlName="contactInfoType">
           <option value="">請選擇</option>
           <option value="mobile">手機</option>
           <option value="email">E-Mail</option>
         </select>
-        <input type="text">
+        <input type="text" formControlName="contactInfo">
+        <span class="error">{{ getErrorMessage("contactInfoType", index) }}</span>
+        <span class="error">{{ getErrorMessage("contactInfo", index) }}</span>
       </p>
       <p><button type="button" (click)="deleteInsured(index)">刪除</button></p>
     </fieldset>
@@ -56,4 +58,6 @@
     <button type="button" (click)="addInsured()">新增被保險人</button>
     <button type="submit" [disabled]="isFormInvalid">送出</button>
   </p>
+
+  <pre>{{ formGroup?.getRawValue() | json }}</pre>
 </form>
