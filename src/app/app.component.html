@@ -1,4 +1,4 @@
-<form *ngIf="formGroup" [formGroup]="formGroup" (submit)="submit()">
+<!-- <form *ngIf="formGroup" [formGroup]="formGroup" (submit)="submit()">
   <ng-container
     formArrayName="insuredList"
     *ngFor="let control of formArray.controls; let index = index"
@@ -58,6 +58,5 @@
     <button type="button" (click)="addInsured()">新增被保險人</button>
     <button type="submit" [disabled]="isFormInvalid">送出</button>
   </p>
-
-  <pre>{{ formGroup?.getRawValue() | json }}</pre>
-</form>
+</form> -->
+<app-reactive-forms-auto-complete-searching></app-reactive-forms-auto-complete-searching>
