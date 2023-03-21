@@ -4,15 +4,15 @@ export interface MetroStationDTO {
   LocationCity: string;
   LocationTown: string;
   BikeAllowOnHoliday: boolean;
-  StationPosition: StationNameModel;
+  StationPosition: StationPositionModel;
 }
 
-interface StationNameModel {
+export interface StationNameModel {
   Zh_tw: string;
   En: string;
 }
 
-interface StationNameModel {
+export interface StationPositionModel {
   PositionLon: number;
   PositionLat: number;
   GeoHash: string;

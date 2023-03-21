@@ -21,8 +21,8 @@
       <td>{{ station.LocationTown }}</td>
       <td>{{ station.BikeAllowOnHoliday | booleanInZhTw }}</td>
       <td>
-        <a target="_blank" [href]="station.StationPosition">
-          {{ station.StationPosition }}
+        <a target="_blank" [href]="station.StationPosition | googleMapLink">
+          {{ station.StationPosition | locationString }}
         </a>
       </td>
     </tr>

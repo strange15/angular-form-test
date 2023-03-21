@@ -6,12 +6,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { ReactiveFormsAutoCompleteSearchingComponent } from './reactive-forms-auto-complete-searching/reactive-forms-auto-complete-searching.component';
 import { BooleanInZhTwPipe } from './boolean-in-zh-tw.pipe';
+import { GoogleMapLinkPipe } from './google-map-link.pipe';
+import { LocationStringPipe } from './location-string.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     ReactiveFormsAutoCompleteSearchingComponent,
-    BooleanInZhTwPipe
+    BooleanInZhTwPipe,
+    GoogleMapLinkPipe,
+    LocationStringPipe
   ],
   imports: [
     BrowserModule,
