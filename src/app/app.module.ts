@@ -8,6 +8,8 @@ import { ReactiveFormsAutoCompleteSearchingComponent } from './reactive-forms-au
 import { BooleanInZhTwPipe } from './boolean-in-zh-tw.pipe';
 import { GoogleMapLinkPipe } from './google-map-link.pipe';
 import { LocationStringPipe } from './location-string.pipe';
+import { ReactiveFormsDateRangeComponent } from './reactive-forms-date-range/reactive-forms-date-range.component';
+import { ErrorMessagePipe } from './error-message.pipe';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { LocationStringPipe } from './location-string.pipe';
     ReactiveFormsAutoCompleteSearchingComponent,
     BooleanInZhTwPipe,
     GoogleMapLinkPipe,
-    LocationStringPipe
+    LocationStringPipe,
+    ReactiveFormsDateRangeComponent,
+    ErrorMessagePipe
   ],
   imports: [
     BrowserModule,
